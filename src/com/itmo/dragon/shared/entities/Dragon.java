@@ -134,7 +134,8 @@ public class Dragon implements Serializable {
         String characterXml = String.format("<character>%s</character>", getCharacter());
         String coordinatesXml = getCoordinates().toXml();
         String killerXml = getKiller().toXml();
-        return String.format("<dragon>%s%s%s%s%s%s%s%s%s</dragon>",
+        return String.format("<dragon>%s%s%s%s%s%s%s%s%s%s</dragon>",
+                userIdXml,
                 idXml,
                 nameXml,
                 ageXml,

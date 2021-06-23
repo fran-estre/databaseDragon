@@ -122,7 +122,7 @@ public class DatabaseConnection {
 
             conn = DriverManager.getConnection(url, user, password);
             Statement stmt = null;
-            String query = "Delete from dragon where dragon.user_id = " + userId;
+            String query = "Delete from public.dragon where user_id = " + userId;
             try {
                 stmt = conn.createStatement();
                 stmt.execute(query);
