@@ -3,6 +3,7 @@ package com.itmo.dragon.shared.entities;
 import java.io.Serializable;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -106,7 +107,8 @@ public class Dragon implements Serializable {
     public Dragon() {
     }
 
-    public Dragon(String name, Coordinates coordinates, Long age, Double weight, Boolean speaking, DragonCharacter character, Person killer) {
+    public Dragon(int userId, String name, Coordinates coordinates, Long age, Double weight, Boolean speaking, DragonCharacter character, Person killer) {
+        setUserId(userId);
         setName(name);
         setCoordinates(coordinates);
         setAge(age);
@@ -122,6 +124,7 @@ public class Dragon implements Serializable {
     }
 
     public String toXml() {
+        String userIdXml = String.format("<userId>%s</userId>", getUserId());
         String idXml = String.format("<id>%s</id>", getId());
         String nameXml = String.format("<name>%s</name>", getName());
         String ageXml = String.format("<age>%s</age>", getAge());
@@ -153,20 +156,20 @@ public class Dragon implements Serializable {
                 "INSERT INTO public.location(person_id, x, y, z, name) " +
                 "SELECT MAX(id), {12}, {13}, {14}, '{15}' FROM public.dragon;"
                         .replace("{0}", getName())
-                        .replace("{1}", getCreationDate())
-                        .replace("{2}", getAge())
-                        .replace("{3}", getWeight())
-                        .replace("{4}", getSpeaking())
-                        .replace("{5}", DragonCharacterHelper.parseDragonCharacter(getCharacter()))
-                        .replace("{6}", getUserId())
-                        .replace("{0}", getCoordinates().getX())
-                        .replace("{0}", getCoordinates().getY())
+                        .replace("{1}", DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(getCreationDate()))
+                        .replace("{2}", getAge().toString())
+                        .replace("{3}", String.valueOf(getWeight()))
+                        .replace("{4}", getSpeaking().toString())
+                        .replace("{5}", DragonCharacterHelper.parseDragonCharacter(getCharacter()).toString())
+                        .replace("{6}", getUserId().toString())
+                        .replace("{0}", getCoordinates().getX().toString())
+                        .replace("{0}", String.valueOf(getCoordinates().getY()))
                         .replace("{0}", getKiller().getName())
-                        .replace("{0}", getKiller().getHeight())
-                        .replace("{0}", getKiller().getWeight())
-                        .replace("{0}", getKiller().getLocation().getX())
-                        .replace("{0}", getKiller().getLocation().getY())
-                        .replace("{0}", getKiller().getLocation().getZ())
+                        .replace("{0}", getKiller().getHeight().toString())
+                        .replace("{0}", String.valueOf(getKiller().getWeight()))
+                        .replace("{0}", String.valueOf(getKiller().getLocation().getX()))
+                        .replace("{0}", String.valueOf(getKiller().getLocation().getY()))
+                        .replace("{0}", String.valueOf(getKiller().getLocation().getZ()))
                         .replace("{0}", getKiller().getLocation().getName());
     }
 }

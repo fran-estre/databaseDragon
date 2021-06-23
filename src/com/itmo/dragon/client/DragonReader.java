@@ -1,5 +1,6 @@
 package com.itmo.dragon.client;
 
+import com.itmo.dragon.server.ServerApp;
 import com.itmo.dragon.shared.entities.*;
 
 import java.util.Scanner;
@@ -44,7 +45,7 @@ public class DragonReader {
         Coordinates coordinates = createCoordinates(keyboard);
         DragonCharacter character = createDragonCharacter(keyboard);
         Person killer = createPerson(keyboard);
-        return new Dragon(name, coordinates, age, weight, speaking, character, killer);
+        return new Dragon(ServerApp.getCurrentUser(), name, coordinates, age, weight, speaking, character, killer);
     }
 
     public static Double readDouble(Scanner keyboard, String message) {
