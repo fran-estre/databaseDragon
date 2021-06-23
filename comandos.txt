@@ -1,0 +1,6 @@
+help
+info
+show
+print_character
+count_by_character evil
+insert
