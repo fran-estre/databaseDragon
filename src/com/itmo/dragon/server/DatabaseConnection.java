@@ -4,6 +4,7 @@ import com.itmo.dragon.shared.entities.*;
 
 import java.sql.*;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 public class DatabaseConnection {
@@ -141,8 +142,7 @@ public class DatabaseConnection {
                 return false;
 
             byte[] dataToValidate = rs.getBytes("password");
-            boolean result = dataToValidate.equals(new EncriptionHelper().encript(userToValidate.getPassword()));
-            return result;
+            return Arrays.equals(dataToValidate, new EncriptionHelper().encript(userToValidate.getPassword()));
         } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
