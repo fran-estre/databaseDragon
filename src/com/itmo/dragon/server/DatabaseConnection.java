@@ -161,7 +161,7 @@ public class DatabaseConnection {
             conn = DriverManager.getConnection(url, user, password);
 
             byte[] encryptedData = new EncriptionHelper().encript("12345");
-            String query = "Insert into public.user (name, password) values ('Francisco', ?);";
+            String query = "Insert into public.users (name, password) values ('Francisco', ?);";
 
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setBytes(1, encryptedData);

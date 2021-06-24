@@ -1,6 +1,8 @@
 package com.itmo.dragon.shared.entities;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int userId;
     private String name;
     private String password;
