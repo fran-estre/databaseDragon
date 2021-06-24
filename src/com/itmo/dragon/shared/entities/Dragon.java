@@ -148,29 +148,26 @@ public class Dragon implements Serializable {
     }
 
     public String toInsert() {
-        return "INSERT INTO public.dragon(name, creation_date, age, weight, speaking, dragon_character, user_id) " +
-                "VALUES ('{0}', '{1}', {2}, {3}, {4}, {5}, {6});\n" +
-                "INSERT INTO public.coordinate(dragon_id, x, y) " +
-                "SELECT MAX(id), {7}, {8} FROM public.dragon;\n" +
-                "INSERT INTO public.person(dragon_id, name, height, weight) " +
-                "SELECT MAX(id), '{9}', {10}, {11} FROM public.dragon;\n" +
-                "INSERT INTO public.location(person_id, x, y, z, name) " +
-                "SELECT MAX(id), {12}, {13}, {14}, '{15}' FROM public.dragon;"
-                        .replace("{0}", getName())
-                        .replace("{1}", DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(getCreationDate()))
-                        .replace("{2}", getAge().toString())
-                        .replace("{3}", String.valueOf(getWeight()))
-                        .replace("{4}", getSpeaking().toString())
-                        .replace("{5}", DragonCharacterHelper.parseDragonCharacter(getCharacter()).toString())
-                        .replace("{6}", getUserId().toString())
-                        .replace("{0}", getCoordinates().getX().toString())
-                        .replace("{0}", String.valueOf(getCoordinates().getY()))
-                        .replace("{0}", getKiller().getName())
-                        .replace("{0}", getKiller().getHeight().toString())
-                        .replace("{0}", String.valueOf(getKiller().getWeight()))
-                        .replace("{0}", String.valueOf(getKiller().getLocation().getX()))
-                        .replace("{0}", String.valueOf(getKiller().getLocation().getY()))
-                        .replace("{0}", String.valueOf(getKiller().getLocation().getZ()))
-                        .replace("{0}", getKiller().getLocation().getName());
+        return String.format("""
+                        INSERT INTO public.dragon(name, creation_date, age, weight, speaking, dragon_character, user_id) VALUES ('%s', '%s', %s, %s, %s, %s, %s);
+                        INSERT INTO public.coordinate(dragon_id, x, y) SELECT MAX(id), %s, %s FROM public.dragon;
+                        INSERT INTO public.person(dragon_id, name, height, weight) SELECT MAX(id), '%s', %s, %s FROM public.dragon;
+                        INSERT INTO public.location(person_id, x, y, z, name) SELECT MAX(id), %s, %s, %s, %s' FROM public.dragon;"""
+                , getName()
+                , DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(getCreationDate())
+                , getAge().toString()
+                , getWeight()
+                , getSpeaking().toString()
+                , DragonCharacterHelper.parseDragonCharacter(getCharacter()).toString()
+                , getUserId().toString()
+                , getCoordinates().getX().toString()
+                , getCoordinates().getY()
+                , getKiller().getName()
+                , getKiller().getHeight().toString()
+                , getKiller().getWeight()
+                , getKiller().getLocation().getX()
+                , getKiller().getLocation().getY()
+                , getKiller().getLocation().getZ()
+                , getKiller().getLocation().getName());
     }
 }
