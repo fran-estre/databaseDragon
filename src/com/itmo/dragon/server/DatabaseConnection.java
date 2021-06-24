@@ -141,7 +141,7 @@ public class DatabaseConnection {
                 return false;
 
             byte[] dataToValidate = rs.getBytes("password");
-            return dataToValidate == new EncriptionHelper().encript(userToValidate.getPassword());
+            return dataToValidate.equals(new EncriptionHelper().encript(userToValidate.getPassword()));
         } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
