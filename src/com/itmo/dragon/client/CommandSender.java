@@ -1,10 +1,12 @@
 package com.itmo.dragon.client;
+import com.itmo.dragon.server.ServerApp;
 import com.itmo.dragon.shared.commands.Command;
 import com.itmo.dragon.shared.commands.SerializationHandler;
 import java.io.IOException;
 
 public class CommandSender {
     public String sendCommand(Command command) {
+        command.setUser(ClientApp.getUser());
         byte[] data = SerializationHandler.serialize(command);
         if (data == null)
             return "There was an error while serialization.";

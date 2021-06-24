@@ -1,6 +1,7 @@
 package com.itmo.dragon.server;
 
 import com.itmo.dragon.shared.entities.Dragon;
+import com.itmo.dragon.shared.entities.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class ServerApp {
     private static String fileName;
     private static String initialization;
     private static Boolean exit = false;
+    private static User currentUser;
 
     public static Boolean getExit() {
         return exit;
@@ -88,7 +90,11 @@ public class ServerApp {
         }
     }
 
-    public static Integer getCurrentUser() {
-        return 1;//todo francisco
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
     }
 }

@@ -45,7 +45,7 @@ public class DragonReader {
         Coordinates coordinates = createCoordinates(keyboard);
         DragonCharacter character = createDragonCharacter(keyboard);
         Person killer = createPerson(keyboard);
-        return new Dragon(ServerApp.getCurrentUser(), name, coordinates, age, weight, speaking, character, killer);
+        return new Dragon(ServerApp.getCurrentUser().getUserId(), name, coordinates, age, weight, speaking, character, killer);
     }
 
     public static Double readDouble(Scanner keyboard, String message) {

@@ -1,5 +1,7 @@
 package com.itmo.dragon.client;
 
+import com.itmo.dragon.shared.entities.User;
+
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -11,7 +13,13 @@ import java.util.Scanner;
  * @version 0.1
  */
 public class ClientApp {
+    private static User user = new User();
+
     private static Communication communication;
+
+    public static User getUser() {
+        return user;
+    }
 
     public static Communication getCommunication() {
         return communication;
@@ -24,8 +32,8 @@ public class ClientApp {
     public static void main(String[] args) {
         String serverAddress;
         int port;
+        Scanner scanner = new Scanner(System.in);
         if (args.length != 2) {
-            Scanner scanner = new Scanner(System.in);
             System.out.print("Enter the server address: ");
             serverAddress = scanner.nextLine();
             System.out.print("Enter the port: ");
@@ -34,6 +42,11 @@ public class ClientApp {
             serverAddress = args[0];
             port = Integer.parseInt(args[1]);
         }
+
+        System.out.print("Enter your name: ");
+        user.setName(scanner.nextLine());
+        System.out.print("Enter your password: ");
+        user.setPassword(scanner.nextLine());
 
         if (initializeCommunication(serverAddress, port))
             new CommandReader().readConsoleCommand();

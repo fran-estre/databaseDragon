@@ -22,6 +22,10 @@ public class KeyboardHandler implements Runnable {
                     ServerApp.dragonsHashtable = new XmlReader().read(ServerApp.getFileName());
                     System.out.println("Read from file...");
                 }
+                case "ADMIN" -> {
+                    processHandler.CreateAdmin();
+                    System.out.println("Ready ADMIN");
+                }
             }
             System.out.println("READFILE: to read dragons from file\nSAVE: to save file\nSAVEDB: to save to database\nEXIT: to finish execution");
         }

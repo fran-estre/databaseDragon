@@ -5,6 +5,7 @@ import com.itmo.dragon.shared.commands.DataBoxHandler;
 import com.itmo.dragon.shared.entities.Dragon;
 import com.itmo.dragon.shared.entities.DragonCharacter;
 import com.itmo.dragon.shared.entities.DragonCharacterHelper;
+import com.itmo.dragon.shared.entities.User;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,6 +17,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ProcessHandler {
     public String processCommand(Command command) {
+        if (!isValidUser(command))
+            return "Invalid user";
+        ServerApp.setCurrentUser(command.getUser());
         return switch (command.getCommandType()) {
             case HELP -> help();
             case INFO -> info();
@@ -32,6 +36,14 @@ public class ProcessHandler {
             case INSERT -> insert(command);
             case UPDATE -> update(command);
         };
+    }
+
+    private boolean isValidUser(Command command) {
+        User user = command.getUser();
+        if (user == null)
+            return false;
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        return databaseConnection.IsValidUser(user);
     }
 
     private String executeScript(Command command) {
@@ -75,7 +87,7 @@ public class ProcessHandler {
 
     public String save() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        ServerApp.dragonsHashtable = databaseConnection.saveDragons(ServerApp.dragonsHashtable,ServerApp.getCurrentUser());
+        ServerApp.dragonsHashtable = databaseConnection.saveDragons(ServerApp.dragonsHashtable, ServerApp.getCurrentUser().getUserId());
         return "The changes was saved in the database";
     }
 
@@ -260,5 +272,10 @@ public class ProcessHandler {
                 count_by_character character : вывести количество элементов, значение поля character которых равно заданному
                 filter_less_than_killer killer : вывести элементы, значение поля killer которых меньше заданного
                 print_unique_character : вывести уникальные значения поля character всех элементов в коллекции""";
+    }
+
+    public void CreateAdmin() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        databaseConnection.CreateAdmin();
     }
 }
