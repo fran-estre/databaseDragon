@@ -4,6 +4,7 @@ import com.itmo.dragon.shared.entities.*;
 
 import java.sql.*;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Hashtable;
 
@@ -47,7 +48,7 @@ public class DatabaseConnection {
                     Integer userId = rs.getInt("user_id");
                     long id = rs.getLong("id");
                     String name = rs.getString("name");
-                    Date creationDate = rs.getDate("creation_date");
+                    String creationDate = rs.getString("creation_date");
                     Long age = rs.getLong("age");
                     double weight = rs.getDouble("weight");
                     Boolean speaking = rs.getBoolean("speaking");
@@ -66,7 +67,7 @@ public class DatabaseConnection {
                     dragon.setUserId(userId);
                     dragon.setId(id);
                     dragon.setName(name);
-                    dragon.setCreationDate(creationDate.toInstant().atZone(ZoneId.systemDefault()));
+                    dragon.setCreationDate(ZonedDateTime.parse(creationDate+"T00:00:00+00:00[Europe/London]"));
                     dragon.setAge(age);
                     dragon.setWeight(weight);
                     dragon.setSpeaking(speaking);
