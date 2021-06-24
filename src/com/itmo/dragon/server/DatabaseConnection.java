@@ -133,15 +133,16 @@ public class DatabaseConnection {
         try {
             conn = DriverManager.getConnection(url, user, password);
             Statement stmt;
-            String query = "Select password from public.users where name = "
-                    + userToValidate.getName() + ";";
+            String query = "Select password from public.users where name = '"
+                    + userToValidate.getName() + "';";
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             if (!rs.next())
                 return false;
 
             byte[] dataToValidate = rs.getBytes("password");
-            return dataToValidate.equals(new EncriptionHelper().encript(userToValidate.getPassword()));
+            boolean result = dataToValidate.equals(new EncriptionHelper().encript(userToValidate.getPassword()));
+            return result;
         } catch (SQLException e) {
             throw new Error("Problem", e);
         } finally {
